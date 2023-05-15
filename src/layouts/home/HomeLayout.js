@@ -11,6 +11,8 @@ export default function HomeLayout() {
       <HomeImg2 />
       <div></div>
 
+      
+
       {/* <div
         style={{
           display: 'flex',
@@ -35,6 +37,8 @@ export default function HomeLayout() {
           </div>
         </NavLink>
       </div> */}
+
+      
     </div>
   );
 }

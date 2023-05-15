@@ -9,7 +9,7 @@ import cloudsImage from './../../assets/Images/agrizz/clouds-01.png';
 import clouds2Image from './../../assets/Images/agrizz/clouds 2-01.png';
 import HomeImg2 from './HomeImg2'
 import ProductLayout from '../../layouts/allproducts/ProductLayout';
-import { NavLink } from 'react-router-dom';
+// import { NavLink } from 'react-router-dom';
 import { Grid } from '@mui/material';
 
 
@@ -116,7 +116,7 @@ function App() {
         <ParallaxLayer offset={1} speed={0.25}>
           <h1 style={{ padding: '200px' }}>Buy Organic Products</h1>
         </ParallaxLayer>
-        <ParallaxLayer offset={1} speed={0.25}>
+        {/* <ParallaxLayer offset={1} speed={0.25}>
           <div
             style={{
               display: 'flex',
@@ -143,7 +143,7 @@ function App() {
               </div>
             </NavLink>
           </div>
-        </ParallaxLayer>
+        </ParallaxLayer> */}
         <ParallaxLayer offset={1} speed={0.25} style={{ paddingTop: '350px' }}>
           <Grid
             container
@@ -151,7 +151,7 @@ function App() {
             spacing={4}
             pl={4}
             pr={4}
-            pt={5}
+            pt={0}
           >
             <Grid item xs={2}>
               <ProductLayout />

@@ -1,13 +1,21 @@
-import { Button } from '@mui/material';
-import React from 'react';
+import * as React from 'react';
+import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
-export default function SaveProductButton() {
+export default function ContainedButtons() {
   return (
-    <div>
-      <Button variant="outlined" startIcon={<FavoriteIcon />}>
-        SAVE
+    <Stack direction="row" spacing={2}>
+      <Button
+        variant="contained"
+        startIcon={<FavoriteIcon />}
+        style={{
+          backgroundColor: 'rgba(81, 146, 89, 0.34)',
+          color: 'rgba(92, 90, 90, 1)',
+        }}
+      >
+        Save
       </Button>
-    </div>
+    </Stack>
   );
 }
