@@ -14,7 +14,7 @@ export default function ProductLayout() {
       <Card sx={{ maxWidth: 250 }}>
         <CardMedia
           sx={{ height: 140 }}
-          image="/static/images/cards/contemplative-reptile.jpg"
+          image="https://www.almanac.com/sites/default/files/styles/or/public/image_nodes/tomatoes_helios4eos_gettyimages-edit.jpeg?itok=2owPswip"
           title="green iguana"
         />
         <CardContent sx={{ textAlign: 'left' }}>

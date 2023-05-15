@@ -8,7 +8,7 @@ export default function HomePage() {
     <div>
       <CommonLayout>
         <HomeLayout />
-?      </CommonLayout>
+      </CommonLayout>
     </div>
   );
 }
