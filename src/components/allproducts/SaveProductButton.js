@@ -6,7 +6,7 @@ export default function SaveProductButton() {
   return (
     <div>
       <Button variant="outlined" startIcon={<FavoriteIcon />}>
-        Delete
+        SAVE
       </Button>
     </div>
   );

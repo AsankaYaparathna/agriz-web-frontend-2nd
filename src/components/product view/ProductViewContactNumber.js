@@ -5,7 +5,8 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: 'rgba(217, 217, 217, 1)',
-    height: '100vh',
+    height: '54px',
+    width: '350px',
     padding: theme.spacing(2),
   },
   text: {

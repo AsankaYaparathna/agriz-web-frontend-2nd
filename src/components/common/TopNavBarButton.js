@@ -6,7 +6,7 @@ export default function TopNavBarButton({ fieldname }) {
     <div>
       <Button
         style={{
-          backgroundColor: 'white',
+          backgroundColor: 'rgba(217, 217, 217, 0.1)',
           color: 'rgba(70, 72, 72, 1)',
         }}
       >

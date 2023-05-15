@@ -1,4 +1,4 @@
-import { Grid } from '@mui/material';
+import { Grid, Paper } from '@mui/material';
 import React from 'react';
 // import Logo from './../../../assets/Images/Logo.png';
 import TopNavBarButton from '../../../components/common/TopNavBarButton';
@@ -8,54 +8,64 @@ import { NavLink } from 'react-router-dom';
 export default function TopNavBar() {
   return (
     <div>
-      <Grid container justifyContent="space-between" alignItems="center">
-        <Grid
-          item
-          paddingLeft={3}
-          style={{
-            fontSize: '40px',
-            color: 'rgba(6, 70, 53, 1)',
-            fontFamily: 'Kufam',
-          }}
-        >
-          <b>AGRIZ</b>
-        </Grid>
+      <Paper
+        sx={{
+          p: 2,
+          border: '1px solid #ccc',
 
-        <Grid item>
-          <Grid container spacing={3}>
-            <Grid item>
-              <NavLink style={{ textDecoration: 'none' }} to={`/home`}>
-                <TopNavBarButton fieldname="Home" />
-              </NavLink>
-            </Grid>
-            <Grid item>
-              <NavLink style={{ textDecoration: 'none' }} to={`/allsellers`}>
-                <TopNavBarButton fieldname="Sellers" />
-              </NavLink>
-            </Grid>
-            <Grid item>
-              <NavLink style={{ textDecoration: 'none' }} to={`/allproducts`}>
-                <TopNavBarButton fieldname="Products" />
-              </NavLink>
-            </Grid>
-            <Grid item>
-              <NavLink style={{ textDecoration: 'none' }} to={`/contactus`}>
-                <TopNavBarButton fieldname="Contact Us" />
-              </NavLink>
-            </Grid>
-            <Grid item>
-              <NavLink style={{ textDecoration: 'none' }} to={`/save`}>
-                <TopNavBarButton fieldname="Saved" />
-              </NavLink>
+          backgroundColor: 'rgba(217, 217, 217, 0.1)',
+        }}
+      >
+        <Grid container justifyContent="space-between" alignItems="center">
+          <Grid
+            item
+            paddingLeft={3}
+            style={{
+              fontSize: '40px',
+              color: 'rgba(6, 70, 53, 1)',
+              fontFamily: 'Kufam',
+            }}
+          >
+            <b>AGRIZ</b>
+          </Grid>
+
+          <Grid item>
+            <Grid container spacing={0}>
+              <Grid item>
+                <NavLink style={{ textDecoration: 'none' }} to={`/home`}>
+                  <TopNavBarButton fieldname="Home" />
+                </NavLink>
+              </Grid>
+              <Grid item>
+                <NavLink style={{ textDecoration: 'none' }} to={`/allsellers`}>
+                  <TopNavBarButton fieldname="Sellers" />
+                </NavLink>
+              </Grid>
+              <Grid item>
+                <NavLink style={{ textDecoration: 'none' }} to={`/allproducts`}>
+                  <TopNavBarButton fieldname="Products" />
+                </NavLink>
+              </Grid>
+
+              <Grid item>
+                <NavLink style={{ textDecoration: 'none' }} to={`/save`}>
+                  <TopNavBarButton fieldname="Saved" />
+                </NavLink>
+              </Grid>
+              <Grid item>
+                <NavLink style={{ textDecoration: 'none' }} to={`/contactus`}>
+                  <TopNavBarButton fieldname="Contact Us" />
+                </NavLink>
+              </Grid>
             </Grid>
           </Grid>
+          <Grid item pr={3}>
+            <NavLink style={{ textDecoration: 'none' }} to={`/login`}>
+              <LogoutIcon />{' '}
+            </NavLink>
+          </Grid>
         </Grid>
-        <Grid item pr={3}>
-          <NavLink style={{ textDecoration: 'none' }} to={`/login`}>
-            <LogoutIcon />{' '}
-          </NavLink>
-        </Grid>
-      </Grid>
+      </Paper>
     </div>
   );
 }

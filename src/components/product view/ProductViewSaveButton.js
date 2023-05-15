@@ -7,8 +7,8 @@ const useStyles = makeStyles((theme) => ({
   button: {
     backgroundColor: 'rgba(81, 146, 89, 1)',
     color: '#fff',
-    width: 334,
-    height: 72,
+    width: 208,
+    height: 45,
     '&:hover': {
       backgroundColor: 'rgba(81, 146, 89, 0.8)',
     },
