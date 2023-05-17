@@ -7,13 +7,11 @@ import cowsImage from './../../assets/Images/agrizz/cows-01.png';
 import plantsImage from './../../assets/Images/agrizz/plants-01.png';
 import cloudsImage from './../../assets/Images/agrizz/clouds-01.png';
 import clouds2Image from './../../assets/Images/agrizz/clouds 2-01.png';
-import HomeImg2 from './HomeImg2'
+import HomeImg2 from './HomeImg2';
 import ProductLayout from '../../layouts/allproducts/ProductLayout';
-// import { NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { Grid } from '@mui/material';
-
-
-
+import ViewAllButton from './../../components/home/ViewAllProductsButton';
 
 function App() {
   return (
@@ -172,6 +170,22 @@ function App() {
               <ProductLayout />
             </Grid>
           </Grid>
+        </ParallaxLayer>
+        <ParallaxLayer>
+                                  <NavLink style={{ textDecoration: 'none' }} to={`/allproducts`}>
+
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              marginTop: '1420px',
+            }}
+          >
+
+            <ViewAllButton />
+          </div>
+                      </NavLink>
+
         </ParallaxLayer>
       </Parallax>
     </div>

@@ -7,7 +7,6 @@ import { getAllSellers } from '../store/actions/sellerAction';
 
 export default function AllSellers() {
   const dispatch = useDispatch();
-
   const { allSellers } = useSelector((store) => store.sellerReducer);
 
   useEffect(() => {
@@ -19,9 +18,11 @@ export default function AllSellers() {
 
   const [search, setSearch] = useState('');
 
-  const handleSearchChange = (value) => {
+  const handleSearchChange = (event) => {
+    const value = event.target?.value || '';
     setSearch(value);
   };
+
   return (
     <div>
       <CommonLayout />

@@ -4,7 +4,7 @@ import SearchIcon from '@mui/icons-material/Search';
 
 const SearchBar = ({ searchValue, onSearchChange }) => {
   const handleChange = (event) => {
-    onSearchChange(event.target.value);
+    onSearchChange(event);
   };
 
   return (
