@@ -10,7 +10,7 @@ export const getAllProducts = () => {
     axios
       .get('http://localhost:5001/products/get-all')
       .then((response) => {
-        console.log(response.data);
+        console.log(response);
         dispatch({
           type: GET_ALL_PRODUCTS_SUCCESS,
           payload: response.data.products,

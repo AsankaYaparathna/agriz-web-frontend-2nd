@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Parallax, ParallaxLayer } from '@react-spring/parallax';
 import backgroundImage from './../../assets/Images/agrizz/backgroud-01.png';
 import mountainsImage from './../../assets/Images/agrizz/mountains-01.png';
@@ -13,7 +13,32 @@ import { NavLink } from 'react-router-dom';
 import { Grid } from '@mui/material';
 import ViewAllButton from './../../components/home/ViewAllProductsButton';
 
+import { Log } from '../../services/Log';
+import { CallAPI } from '../../services/API_CALL';
+import Cookies from "js-cookie";
+const CustomerId = Cookies.get("CustomerId");
+
 function App() {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    //get all product
+    const GetMedicineData = async () => {
+      try {
+        const responce = await CallAPI({}, '/products/get-all', "GET");
+        if (responce && responce.status) {
+          setProducts(responce.data);
+
+        } else { console.error('data fetch error /meddicine/getByPhId'); }
+      } catch (error) { console.error('Error:', error); }
+    };
+    GetMedicineData();
+
+    // Log('Home Parallex');
+    // Log(products);
+  }, []);
+
+
   return (
     <div className="App">
       <Parallax pages={2} style={{ top: '5', left: '0' }}>
@@ -151,40 +176,34 @@ function App() {
             pr={4}
             pt={0}
           >
-            <Grid item xs={2}>
-              <ProductLayout />
-            </Grid>
-            <Grid item xs={2}>
-              <ProductLayout />
-            </Grid>
-            <Grid item xs={2}>
-              <ProductLayout />
-            </Grid>
-            <Grid item xs={2}>
-              <ProductLayout />
-            </Grid>
-            <Grid item xs={2}>
-              <ProductLayout />
-            </Grid>
-            <Grid item xs={2}>
-              <ProductLayout />
-            </Grid>
+
+            {products.map((product) => (
+              <Grid item xs={2}>
+                <ProductLayout product={{
+                  productImage: product.productImage,
+                  productName: product.productName,
+                  AvailableQuantity: product.AvailableQuantity,
+                  price: product.price,
+                }} />
+              </Grid>
+            ))}
+
           </Grid>
         </ParallaxLayer>
         <ParallaxLayer>
-                                  <NavLink style={{ textDecoration: 'none' }} to={`/allproducts`}>
+          <NavLink style={{ textDecoration: 'none' }} to={`/allproducts`}>
 
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              marginTop: '1420px',
-            }}
-          >
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                marginTop: '1420px',
+              }}
+            >
 
-            <ViewAllButton />
-          </div>
-                      </NavLink>
+              <ViewAllButton />
+            </div>
+          </NavLink>
 
         </ParallaxLayer>
       </Parallax>

@@ -1,12 +1,52 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import CommonLayout from '../layouts/common/CommonLayout';
 import ProductLayout from '../layouts/allproducts/ProductLayout';
 import { Grid } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllProducts } from '../store/actions/productsAction';
+import SearchBar from '../components/all seller/SellerSearch';
+
+import { Log } from '../services/Log';
+import { CallAPI } from '../services/API_CALL';
+import Cookies from "js-cookie";
+const CustomerId = Cookies.get("CustomerId");
 
 export default function AllProducts() {
+
+  const [products, setProducts] = useState([]);
+  const [productsBk, setProductsBk] = useState([]);
+  const [category, setCategory] = useState([]);
+  const [search, setSearch] = useState('');
+
+  useEffect(() => {
+    //get all product
+    const GetMedicineData = async () => {
+      try {
+        const responce = await CallAPI({}, '/products/get-all', "GET");
+        if (responce && responce.status) {
+          setProducts(responce.data);
+          setProductsBk(responce.data);
+        } else { console.error('data fetch error /meddicine/getByPhId'); }
+      } catch (error) { console.error('Error:', error); }
+    };
+    GetMedicineData();
+  }, []);
+
+  useEffect(() => {
+    //get all category
+    const GetApiData = async () => {
+      try {
+        const responce = await CallAPI({}, '/catergory/get-all', "GET");
+        if (responce && responce.status) {
+          setCategory(responce.data);
+        } else { console.error('data fetch error /catergory/get-all'); }
+      } catch (error) { console.error('Error:', error); }
+    };
+    GetApiData();
+  }, []);
+
+
   const dispatch = useDispatch();
   const { getAllProductsListLoading, allProducts } = useSelector(
     (store) => store.productsReducer
@@ -18,9 +58,56 @@ export default function AllProducts() {
     }
   }, [dispatch, getAllProductsListLoading]);
 
+  const filerProduct = (async (type) => {
+    try {
+      if (type === 'all') {
+        setProducts(productsBk);
+      }
+      else {
+        const catId = await GetCatId(type);;
+        const filteredProducts = productsBk.filter((product) => product.productCatogoryId === catId);
+        setProducts(filteredProducts);
+      }
+
+    } catch (error) { console.error('Error:', error); }
+  });
+
+  const GetCatId = (async (type) => {
+    var catId = 0;
+    category.map((x) => {
+      if (x.productCatrgoryName === type) {
+        catId = x._id;
+      }
+    });
+
+    return catId;
+  });
+
+  const handleSearchChange = (event) => {
+    const value = event.target?.value || '';
+    setSearch(value);
+
+    if (value !== '') {
+      const filteredProducts = productsBk.filter((product) =>
+        product.productName.toLowerCase() === value.toLowerCase()
+      );
+      setProducts(filteredProducts);
+    }
+    else{
+      setProducts(productsBk);
+    }
+    
+  };
   return (
     <div>
       <CommonLayout>
+        <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+            marginTop: '30px',
+          }}>
+        <SearchBar searchValue={search} onSearchChange={handleSearchChange} />
+        </div>
         <div
           style={{
             display: 'flex',
@@ -28,22 +115,23 @@ export default function AllProducts() {
             marginTop: '30px',
           }}
         >
-          <NavLink style={{ textDecoration: 'none' }} to={`/allproducts`}>
+          <NavLink style={{ textDecoration: 'none' }} onClick={() => filerProduct('all')}>
             <div>All</div>
           </NavLink>
-          <NavLink style={{ textDecoration: 'none' }} to={`/vegetable`}>
+          <NavLink style={{ textDecoration: 'none' }} onClick={() => filerProduct('vegitable')}>
             <div style={{ marginLeft: '10px', marginRight: '10px' }}>
               Vegetable
             </div>
           </NavLink>
-          <NavLink style={{ textDecoration: 'none' }} to={`/fruit`}>
+          <NavLink style={{ textDecoration: 'none' }} onClick={() => filerProduct('fruits')}>
             <div style={{ marginLeft: '10px', marginRight: '10px' }}>Fruit</div>
           </NavLink>
-          <NavLink style={{ textDecoration: 'none' }} to={`/other`}>
+          <NavLink style={{ textDecoration: 'none' }} onClick={() => filerProduct('other')}>
             <div style={{ marginLeft: '10px', marginRight: '10px' }}>
               Other Products
             </div>
           </NavLink>
+          
         </div>
 
         <Grid
@@ -54,17 +142,17 @@ export default function AllProducts() {
           pr={4}
           pt={5}
         >
-          {getAllProductsListLoading === 'loading' ? (
-            <p>Loading...</p>
-          ) : getAllProductsListLoading === 'fail' ? (
-            <p>Failed to load products.</p>
-          ) : (
-            allProducts.map((product, index) => (
-              <Grid item xs={2} key={index}>
-                <ProductLayout product={product} />
-              </Grid>
-            ))
-          )}
+          {products.map((product) => (
+            <Grid item xs={2}>
+              <ProductLayout product={{
+                productImage: product.productImage,
+                productName: product.productName,
+                AvailableQuantity: product.AvailableQuantity,
+                price: product.price,
+                id: product._id,
+              }} />
+            </Grid>
+          ))}
         </Grid>
       </CommonLayout>
     </div>

@@ -1,6 +1,14 @@
 import React from 'react';
 import regiImage from '../assets/Images/SignupBackground.png';
 import SignupCard from '../layouts/Signup/SignupCard';
+
+
+import { Log } from '../services/Log';
+import { CallAPI } from '../services/API_CALL';
+import Cookies from "js-cookie";
+const CustomerId = Cookies.get("CustomerId");
+
+
 export default function SignUpPage() {
   return (
     <div

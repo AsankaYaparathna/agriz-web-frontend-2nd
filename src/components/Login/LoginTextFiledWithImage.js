@@ -7,6 +7,7 @@ export default function LoginTextFiledWithImage({ info }) {
       <TextField
         fullWidth
         variant="outlined"
+        onChange={info.changeFunction}
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">

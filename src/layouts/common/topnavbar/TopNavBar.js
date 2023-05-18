@@ -5,7 +5,15 @@ import TopNavBarButton from '../../../components/common/TopNavBarButton';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { NavLink } from 'react-router-dom';
 
+
+import Cookies from "js-cookie";
+const CustomerId = Cookies.get("CustomerId");
+
 export default function TopNavBar() {
+  const Logout =() =>{
+    Cookies.remove("CustomerId");
+    window.location.href = "/login";
+  }
   return (
     <div>
       <Paper
@@ -60,9 +68,11 @@ export default function TopNavBar() {
             </Grid>
           </Grid>
           <Grid item pr={3}>
-            <NavLink style={{ textDecoration: 'none' }} to={`/login`}>
-              <LogoutIcon />{' '}
-            </NavLink>
+            {/* <NavLink style={{ textDecoration: 'none' }} to={`/login`}>
+              
+              
+            </NavLink> */}
+            <button onClick={Logout}> <LogoutIcon />{' '}</button>
           </Grid>
         </Grid>
       </Paper>
