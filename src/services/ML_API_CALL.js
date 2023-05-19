@@ -1,5 +1,5 @@
 import { Log } from './Log';
-const BASE_URL = 'https://agriml.herokuapp.com';
+const BASE_URL = 'https://mlagriculture.herokuapp.com';
 
 export const CallMlAPI = async (body, endPoint, methodType) => {
 

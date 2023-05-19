@@ -7,7 +7,7 @@ import ProductViewSaveButton from '../components/product view/ProductViewSaveBut
 import ProductViewContact from './../components/product view/ProductViewContactNumber';
 import ProductDetails from '../components/product view/ProductViewProductDetails';
 import { Grid, Divider } from '@mui/material';
-
+import ProductLayout from '../layouts/allproducts/ProductLayout';
 
 import { Log } from '../services/Log';
 import { CallAPI } from '../services/API_CALL';
@@ -43,10 +43,12 @@ export default function ProductViewPage() {
     //get all product
     const GetPrdictedData = async () => {
       try {
-        const responce = await CallMlAPI({}, `/recommendation/${CustomerId}`, "GET");
+        const responce = await CallMlAPI({}, `/recommendation/${savedProducts.id}`, "GET");
+        Log(responce);
         if (responce) {
           // const filteredProducts = products.filter((product) => product._id === '');
           // Log(responce.recommendations);
+          
           setRecommendedProducts(responce.recommendations);
         } else { console.error('data fetch error /recommendation Ml data'); }
       } catch (error) { console.error('Error:', error); }
@@ -76,20 +78,30 @@ export default function ProductViewPage() {
         <ProductViewContact />
         <Divider />
         <h1>Suggested Products</h1>
+        <Grid container spacing={3} style={{alignItems:'center',justifyContent:'center',marginBottom:'50px'}}>
 
         {recommendedProducts.map((productId)=>{
-          const product = products.find((p) => p._id === productId);
+          const product = products.slice(0, 5).find((p) => p._id === productId);
           if (product) {
-            return(<Grid item key={productId}>
-              {/* <h3>{product.productName}</h3>
-              <img src={product.productImage} alt={product.productName} />
-              <p>{product.description}</p>
-              <p>Price: {product.price}</p> */}
-              a
-            </Grid>);
+            return(
+              <Grid item xs={2}>
+              <ProductLayout product={{
+                productImage: product.productImage,
+                productName: product.productName,
+                availableQuantity: product.availableQuantity,
+                price: product.price,
+                id: product._id,
+                sellerId: product.sellerId,
+                description: product.description
+              }} />
+            </Grid>
+            );
 
           }
         })}
+        </Grid>
+
+
 
       </CommonLayout>
     </div>

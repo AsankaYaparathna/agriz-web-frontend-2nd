@@ -1,18 +1,68 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { MapContainer, TileLayer, Marker } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
+import markerIcon from '../../img/locationIcon.png';
+
+import { Log } from '../../services/Log';
+import { CallAPI } from '../../services/API_CALL';
+import Cookies from "js-cookie";
+const CustomerId = Cookies.get("CustomerId");
 
 export default function Map() {
+  const DetailedProductString = sessionStorage.getItem("DetailedProduct");
+  const savedProducts = DetailedProductString ? JSON.parse(DetailedProductString) : [];
+  const [sellerDetails, setSellerDetails] = useState([]);
+  const [latitudedb, setLatitude] = useState();
+  const [longitudedb, setLongitude] = useState();
+
+  useEffect(() => {
+    const fetchSellerDetails = async () => {
+      try {
+        const response = await CallAPI({}, '/seller/get-all', 'GET');
+        if (response && response.status) {
+          const sellerDetails = response.seller.find((x) => x._id === savedProducts.sellerId);
+          setSellerDetails(sellerDetails);
+
+          setLatitude(sellerDetails.latitude);
+          setLongitude(sellerDetails.longitude);
+        } else {
+          console.error('Error fetching seller name');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+
+    fetchSellerDetails();
+  }, []);
+
+  const latitude = latitudedb || '6.8522148'; // Use a default value if latitudedb is undefined
+  const longitude = longitudedb || '79.9248669'; // Use a default value if longitudedb is undefined
+
+  const customIcon = L.icon({
+    iconUrl: markerIcon,
+    iconSize: [25, 30],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    tooltipAnchor: [16, -28],
+  });
+
+  if (latitude === undefined || longitude === undefined) {
+    // Display a loading state or handle the case when latitude and longitude are not available
+    return <div>Loading...</div>;
+  }
+
   return (
     <div>
-      <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d709.0674598506242!2d80.03630410278143!3d6.852543636959876!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae2524933aa3455%3A0x60c986f821d17267!2sSolar%20Life%20Technologies%20(Pvt)%20Ltd!5e0!3m2!1sen!2slk!4v1683215063644!5m2!1sen!2slk"
-        title="Google Map of Solar Life Technologies (Pvt) Ltd"
-        width="320"
-        height="170"
-        style={{ border: 3 }}
-        allowFullScreen=""
-        loading="lazy"
-        referrerPolicy="no-referrer-when-downgrade"
-      ></iframe>
+      <MapContainer
+        center={[parseFloat(latitude), parseFloat(longitude)]}
+        zoom={13}
+        style={{ height: '170px', width: '335px', marginTop: '20px' }}
+      >
+        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+        <Marker position={[parseFloat(latitude), parseFloat(longitude)]} icon={customIcon} />
+      </MapContainer>
     </div>
   );
 }
