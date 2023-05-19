@@ -123,7 +123,7 @@ export default function SignupCard() {
             <div style={{ paddingTop: 12 }}>
               <Divider />
             </div>
-
+{/* 
             <div style={{ paddingTop: 12 }}>
               <Button
                 fullWidth
@@ -136,7 +136,7 @@ export default function SignupCard() {
               >
                 Sign Up with Google
               </Button>
-            </div>
+            </div> */}
 
             <div style={{ paddingTop: 12 }}>
               <NavLink style={{ textDecoration: 'none' }} to={`/login`}>

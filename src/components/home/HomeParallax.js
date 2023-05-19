@@ -175,14 +175,15 @@ function App() {
             pl={4}
             pr={4}
             pt={0}
+            style={{marginTop:'-50px'}}
           >
 
-            {products.map((product) => (
+            {products.slice(0, 5).map((product) => (
               <Grid item xs={2}>
                 <ProductLayout product={{
                   productImage: product.productImage,
                   productName: product.productName,
-                  AvailableQuantity: product.AvailableQuantity,
+                  availableQuantity: product.availableQuantity,
                   price: product.price,
                 }} />
               </Grid>
@@ -197,14 +198,16 @@ function App() {
               style={{
                 display: 'flex',
                 justifyContent: 'center',
-                marginTop: '1420px',
+                marginTop: '1360px',
               }}
             >
 
               <ViewAllButton />
             </div>
           </NavLink>
+          <div style={{height:'50px'}}>
 
+          </div>
         </ParallaxLayer>
       </Parallax>
     </div>

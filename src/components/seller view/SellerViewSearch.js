@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { TextField, InputAdornment } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import { Log } from '../../services/Log';
 
-const SearchBar = ({ searchValue, onSearchChange }) => {
+const SearchBar = ({onSearchChange}) => {
+  const [searchValue, setSearchChange] = useState([]);
+
   const handleChange = (event) => {
-    onSearchChange(event.target.value);
+    setSearchChange(event.target.value);
+    const value = event.target.value;
+    onSearchChange(value);
   };
 
   return (

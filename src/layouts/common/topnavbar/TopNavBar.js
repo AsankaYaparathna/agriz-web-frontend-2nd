@@ -12,6 +12,7 @@ const CustomerId = Cookies.get("CustomerId");
 export default function TopNavBar() {
   const Logout =() =>{
     Cookies.remove("CustomerId");
+    //sessionStorage.clear();
     window.location.href = "/login";
   }
   return (

@@ -5,6 +5,11 @@ import SellerCard from '../components/all seller/SellerCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAllSellers } from '../store/actions/sellerAction';
 
+import { Log } from '../services/Log';
+import { CallAPI } from '../services/API_CALL';
+import Cookies from "js-cookie";
+const CustomerId = Cookies.get("CustomerId");
+
 export default function AllSellers() {
   const dispatch = useDispatch();
   const { allSellers } = useSelector((store) => store.sellerReducer);

@@ -34,7 +34,7 @@ function App() {
           <Route path="/other" element={<OtherProducts />} />
           <Route path="/productview" element={<ProductViewPage />} />
 
-          <Route path="*" element={<NoPage />} />
+          <Route path="rating" element={<NoPage />} />
         </Routes>
       </BrowserRouter>
     </div>

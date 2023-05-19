@@ -1,6 +1,10 @@
 import React from 'react';
 
 const ProductViewImage = () => {
+
+  const DetailedProductString = sessionStorage.getItem("DetailedProduct");
+  const savedProducts = DetailedProductString ? JSON.parse(DetailedProductString) : [];
+
   const imageStyle = {
     width: '313.5px',
     height: '243.17px',
@@ -9,7 +13,7 @@ const ProductViewImage = () => {
 
   return (
     <img
-      src="https://blog-images-1.pharmeasy.in/blog/production/wp-content/uploads/2021/04/23175719/shutterstock_440493100-1.jpg"
+      src={savedProducts.productImage}
       alt="Product view"
       style={imageStyle}
     />

@@ -110,9 +110,9 @@ export default function LoginCard() {
               <Grid2 item>
                 <SwitchWithTypography />
               </Grid2>
-              <Grid2 item>
+              {/* <Grid2 item>
                 <Typography>Forgot password</Typography>
-              </Grid2>
+              </Grid2> */}
             </Grid2>
             <div style={{ paddingTop: 12 }}>
                 <Button
@@ -127,7 +127,7 @@ export default function LoginCard() {
             <div style={{ paddingTop: 12 }}>
               <Divider />
             </div>
-            <div style={{ paddingTop: 12 }}>
+            {/* <div style={{ paddingTop: 12 }}>
               <Button
                 fullWidth
                 variant="contained"
@@ -135,7 +135,7 @@ export default function LoginCard() {
               >
                 Sign In With Google
               </Button>
-            </div>
+            </div> */}
             <div style={{ paddingTop: 12 }}>
               <NavLink style={{ textDecoration: 'none' }} to={`/register`}>
                 <Typography>

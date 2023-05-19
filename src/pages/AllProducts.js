@@ -19,9 +19,10 @@ export default function AllProducts() {
   const [category, setCategory] = useState([]);
   const [search, setSearch] = useState('');
 
+
   useEffect(() => {
     //get all product
-    const GetMedicineData = async () => {
+    const GetProductData = async () => {
       try {
         const responce = await CallAPI({}, '/products/get-all', "GET");
         if (responce && responce.status) {
@@ -30,7 +31,7 @@ export default function AllProducts() {
         } else { console.error('data fetch error /meddicine/getByPhId'); }
       } catch (error) { console.error('Error:', error); }
     };
-    GetMedicineData();
+    GetProductData();
   }, []);
 
   useEffect(() => {
@@ -147,9 +148,11 @@ export default function AllProducts() {
               <ProductLayout product={{
                 productImage: product.productImage,
                 productName: product.productName,
-                AvailableQuantity: product.AvailableQuantity,
+                availableQuantity: product.availableQuantity,
                 price: product.price,
                 id: product._id,
+                sellerId: product.sellerId,
+                description:product.description
               }} />
             </Grid>
           ))}

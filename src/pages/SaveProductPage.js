@@ -1,8 +1,13 @@
 import React from 'react';
 import TopNavbar from '../layouts/common/CommonLayout';
 import SaveProductCard from '../components/save/ProductCardInSave';
+import { Log } from '../services/Log';
 
 function SaveProductPage() {
+
+  const savedProductString = sessionStorage.getItem("SavedProduct");
+  const savedProducts = savedProductString ? JSON.parse(savedProductString) : [];
+
   const sampleProducts = [
     {
       name: 'Red Chilly',
@@ -99,7 +104,7 @@ function SaveProductPage() {
           margin: 'auto',
         }}
       >
-        {sampleProducts.map((product, index) => (
+        {savedProducts.map((product, index) => (
           <div
             key={index}
             style={{
@@ -108,7 +113,7 @@ function SaveProductPage() {
               marginRight: '20px',
             }}
           >
-            <SaveProductCard product={product} />
+            <SaveProductCard product={product.product} />
           </div>
         ))}
       </div>

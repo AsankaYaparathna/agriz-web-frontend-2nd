@@ -4,16 +4,31 @@ import Stack from '@mui/material/Stack';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { Log } from '../../services/Log';
 
+import Cookies from "js-cookie";
+
+
 export default function ContainedButtons(product) {
 
   const [savedProducts, setSavedProducts] = useState([]);
-
-  const SaveProduct = ()=>{
-    //setSavedProducts(product,...product);
-
-    Log(product);
+ Log('ContainedButtons');
+ Log(product);
+  const SaveProduct = () => {
+    const savedProductString = sessionStorage.getItem("SavedProduct");
+    const savedProducts = savedProductString ? JSON.parse(savedProductString) : [];
+  
+    const isProductExists = savedProducts.some((savedProduct) => savedProduct.product.id === product.product.id);
+  
+    if (isProductExists) {
+      console.log('Product already exists:', product);
+      return;
+    }
+  
+    const updatedProducts = [...savedProducts, product];
+    sessionStorage.setItem('SavedProduct', JSON.stringify(updatedProducts));
+    setSavedProducts(updatedProducts);
+    
   };
-
+  
 
   return (
     <Stack direction="row" spacing={2}>
