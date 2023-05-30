@@ -1,93 +1,35 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import TopNavbar from '../layouts/common/CommonLayout';
 import SaveProductCard from '../components/save/ProductCardInSave';
+
 import { Log } from '../services/Log';
+import { CallAPI } from '../services/API_CALL';
+import Cookies from "js-cookie";
+const CustomerId = Cookies.get("CustomerId");
 
 function SaveProductPage() {
-
   const savedProductString = sessionStorage.getItem("SavedProduct");
-  const savedProducts = savedProductString ? JSON.parse(savedProductString) : [];
+  //const savedProducts = savedProductString ? JSON.parse(savedProductString) : [];
+  const [products, setProducts] = useState([]);
+  const [savedProducts, setsavedProducts] = useState([]);
 
-  const sampleProducts = [
-    {
-      name: 'Red Chilly',
-      image:
-        'https://live-production.wcms.abc-cdn.net.au/6a8697b1e115f3af0735fe8ce272b6ae?impolicy=wcms_crop_resize&cropH=2016&cropW=3024&xPos=0&yPos=1008&width=862&height=575',
-      seller: 'Bandarawela Shop',
-      quantity: '100Kg',
-      price: '250',
-    },
-    {
-      name: 'Green Peppers',
-      image: 'https://images.unsplash.com/photo-1592417817098-8fd3d9eb14a5',
-      seller: 'Green Valley Mart',
-      quantity: '150Kg',
-      price: '200',
-    },
-    {
-      name: 'Tomatoes',
-      image: 'https://images.unsplash.com/photo-1592194996308-7b43878e84a6',
-      seller: 'Fresh Farm Market',
-      quantity: '300Kg',
-      price: '100',
-    },
-    {
-      name: 'Potatoes',
-      image: 'https://images.unsplash.com/photo-1585938498755-5b5f5a5d8c2d',
-      seller: 'Golden Harvest',
-      quantity: '500Kg',
-      price: '80',
-    },
-    {
-      name: 'Carrots',
-      image: 'https://images.unsplash.com/photo-1574158622682-e40e69881006',
-      seller: 'Carrot World',
-      quantity: '200Kg',
-      price: '120',
-    },
-    {
-      name: 'Broccoli',
-      image: 'https://images.unsplash.com/photo-1599028341417-9f9f35f15b78',
-      seller: 'Green Grocers',
-      quantity: '100Kg',
-      price: '150',
-    },
-    {
-      name: 'Cabbage',
-      image: 'https://images.unsplash.com/photo-1582212667483-05d7b9f3b46f',
-      seller: 'Healthy Market',
-      quantity: '250Kg',
-      price: '75',
-    },
-    {
-      name: 'Cucumbers',
-      image: 'https://images.unsplash.com/photo-1592939752957-6b84e74d9d9f',
-      seller: 'Cucumber Corner',
-      quantity: '150Kg',
-      price: '50',
-    },
-    {
-      name: 'Onions',
-      image: 'https://images.unsplash.com/photo-1597165516805-43e7a291f3b3',
-      seller: 'Onion Station',
-      quantity: '400Kg',
-      price: '90',
-    },
-    {
-      name: 'Garlic',
-      image: 'https://images.unsplash.com/photo-1547547457-0cf3a3f7f81c',
-      seller: 'Garlic World',
-      quantity: '100Kg',
-      price: '200',
-    },
-    {
-      name: 'Zucchini',
-      image: 'https://images.unsplash.com/photo-1557814103-3d3c921549e1',
-      seller: 'Zucchini Zone',
-      quantity: '75Kg',
-      price: '130',
-    },
-  ];
+  useEffect(() => {
+    const GetSavedProduct = async () => {
+      try {
+        const responce = await CallAPI({}, `/savedProduct/getByUserId/${CustomerId}`, "GET");
+        if (responce && responce.status) {
+          setsavedProducts([]);
+          responce.data[0].products.map(async (x)=>{
+            const responce2 = await CallAPI({}, `/products/getById/${x}`, "GET");
+            if (responce2 && responce2.status) {
+              setsavedProducts((prevProducts) => [...prevProducts, responce2.product[0]]);
+            } else { }
+          });
+        } else { }
+      } catch (error) { console.error('Error:', error); }
+    };
+    GetSavedProduct();
+  }, []);
 
   return (
     <div>
@@ -102,6 +44,7 @@ function SaveProductPage() {
           flexWrap: 'wrap',
           maxWidth: '1800px',
           margin: 'auto',
+          marginBottom:'30px'
         }}
       >
         {savedProducts.map((product, index) => (
@@ -113,7 +56,7 @@ function SaveProductPage() {
               marginRight: '20px',
             }}
           >
-            <SaveProductCard product={product.product} />
+            <SaveProductCard product={product} />
           </div>
         ))}
       </div>

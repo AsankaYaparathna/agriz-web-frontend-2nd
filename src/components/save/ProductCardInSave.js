@@ -12,8 +12,7 @@ const CustomerId = Cookies.get("CustomerId");
 export default function ActionAreaCard(props) {
   const { product } = props;
   const [sellerName, setSellerName] = useState('');
-  Log('ActionAreaCard');
-Log(product);
+
   useEffect(() => {
     const fetchSellerName = async () => {
       try {
@@ -32,19 +31,35 @@ Log(product);
     fetchSellerName();
   }, []);
 
-  
   const SeeProductDetails =()=>{
     sessionStorage.setItem('DetailedProduct', JSON.stringify(product));
     window.location.href = '/productview';
   };
-  const RemoveProductDetails =()=>{
-    const savedProductString = sessionStorage.getItem("SavedProduct");
-    const savedProducts = savedProductString ? JSON.parse(savedProductString) : [];
+  
+  const RemoveProductDetails =async ()=>{
+    Log(product._id);
+    const responce = await CallAPI({}, `/savedProduct/getByUserId/${CustomerId}`, "GET");
+    if (responce && responce.status) {
+      Log(responce);
+      const localProduct = responce.data[0].products;
 
-    const updatedProducts = savedProducts.filter((savedProduct) => savedProduct.product.id !== product.id);
-    sessionStorage.setItem('SavedProduct', JSON.stringify(updatedProducts));
-    //setSavedProducts(updatedProducts);
-    window.location.reload();
+      const isProductExists = responce.data[0].products.some((savedProduct) => savedProduct === product._id);
+      if (!isProductExists) {
+        console.log('Product already exists:', responce.data[0].products);
+        return;
+      }
+      localProduct.pop(product._id);
+      const body = {
+        "customerId": CustomerId,
+        products: localProduct
+      }
+      const responce2 = await CallAPI(body, `/savedProduct/update/${responce.data[0]._id}`, "POST");
+      if (responce2 && responce2.status) {
+          window.location.reload();
+      }
+
+    }
+  
   };
 
   return (

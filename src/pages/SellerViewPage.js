@@ -49,8 +49,6 @@ export default function SellerViewPage() {
 
   const handleSearchChange = (value) => {
     setSearchChange(value);
-
-    Log(value);
     if (value !== '') {
       const filteredProducts = sellerProductbk.filter((product) =>
         product.productName.toLowerCase() === value.toLowerCase()

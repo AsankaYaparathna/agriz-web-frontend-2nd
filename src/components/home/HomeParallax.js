@@ -185,6 +185,9 @@ function App() {
                   productName: product.productName,
                   availableQuantity: product.availableQuantity,
                   price: product.price,
+                  id: product._id,
+                  sellerId: product.sellerId,
+                  description:product.description
                 }} />
               </Grid>
             ))}

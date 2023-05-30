@@ -30,6 +30,7 @@ const styles = {
 export default function SellerCard(search) {
   const [sellers, setSellers] = useState([]);
   const [sellersBk, setSellersBk] = useState([]);
+  const [ratingValue, setRatingValue] = useState([]);
 
   useEffect(() => {
     //get all product
@@ -58,6 +59,18 @@ export default function SellerCard(search) {
     }
   }, [search]);
 
+  useEffect(() => {
+    const GetRatingData = async () => {
+      try {
+       const responce = await CallAPI({}, `/rate/get-all`, "GET");
+        if (responce && responce.status) {
+          setRatingValue(responce.data);
+        } else { console.error('data fetch error /meddicine/getByPhId'); }
+      } catch (error) { console.error('Error:', error); }
+    };
+    GetRatingData();
+  }, []);
+
   const handleImageClick = (val) =>{
     sessionStorage.setItem('DetailedSeller', JSON.stringify(val));
     window.location.href = '/allsellers/sellerview';
@@ -75,7 +88,13 @@ export default function SellerCard(search) {
     >
       {sellers.map((val, key) => {
         const isFirstRow = key < 1;
-
+        var localRate = 0;
+        const sellerRate = ratingValue.map((x)=>{
+          if(x.sellerId ===val._id){
+            localRate = x.rateCount;
+          }
+        })
+        
         let cardStyle = {
           maxWidth: '345px',
           marginBottom: '20px',
@@ -108,7 +127,7 @@ export default function SellerCard(search) {
               <Typography variant="body2" color="text.secondary">
                 reviews
               </Typography>
-              <BasicRating />
+              <BasicRating rating={localRate}/>
             </CardContent>
             <CardActions sx={styles.cardActions}>
               <Typography variant="body2" sx={styles.sellerNumber}>

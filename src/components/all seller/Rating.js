@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
 
 function BasicRating({ rating }) {
+  console.log(rating);
   return (
     <Box
       sx={{
